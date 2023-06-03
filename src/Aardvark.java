@@ -50,8 +50,6 @@ public class Aardvark {
   private void generateGuesses() {
     _g = new LinkedList<Domino>();
     int count = 0;
-    int x = 0;
-    int y = 0;
     for (int l = 0; l <= 6; l++) {
       for (int h = l; h <= 6; h++) {
         Domino d = new Domino(h, l);
@@ -91,7 +89,7 @@ public class Aardvark {
     }
   }
 
-  int pg() {
+  int printGuess() {
     for (int are = 0; are < 7; are++) {
       for (int see = 0; see < 8; see++) {
         if (grid[are][see] != 9) {
@@ -159,11 +157,6 @@ public class Aardvark {
   }
 
   private void rotateDominoes() {
-    // for (Domino d : dominoes) {
-    // if (Math.random() > 0.5) {
-    // System.out.println("rotating " + d);
-    // }
-    // }
     for (int x = 0; x < 7; x++) {
       for (int y = 0; y < 6; y++) {
 
@@ -224,7 +217,7 @@ public class Aardvark {
     return (x == Math.min(d.lx, d.hx)) && (y == Math.min(d.ly, d.hy));
   }
 
-  private Domino findDominoAt(int x, int y) {
+  private Domino findDominoAtAndGuessAt(int x, int y) {
     for (Domino d : _d) {
       if ((d.lx == x && d.ly == y) || (d.hx == x && d.hy == y)) {
         return d;
@@ -233,16 +226,7 @@ public class Aardvark {
     return null;
   }
 
-  private Domino findGuessAt(int x, int y) {
-    for (Domino d : _g) {
-      if ((d.lx == x && d.ly == y) || (d.hx == x && d.hy == y)) {
-        return d;
-      }
-    }
-    return null;
-  }
-
-  private Domino findGuessByLH(int x, int y) {
+  private Domino findGuessByLHAndDominoByLH(int x, int y) {
     for (Domino d : _g) {
       if ((d.low == x && d.high == y) || (d.high == x && d.low == y)) {
         return d;
@@ -251,24 +235,14 @@ public class Aardvark {
     return null;
   }
 
-  private Domino findDominoByLH(int x, int y) {
-    for (Domino d : _d) {
-      if ((d.low == x && d.high == y) || (d.high == x && d.low == y)) {
-        return d;
-      }
-    }
-    return null;
-  }
 
   private void printDominoes() {
-    for (Domino d : _d) {
-      System.out.println(d);
+    _d.forEach(d -> System.out.println(d));
     }
   }
 
   private void printGuesses() {
-    for (Domino d : _g) {
-      System.out.println(d);
+	_d.forEach(d -> System.out.println(d));
     }
   }
 
@@ -706,14 +680,12 @@ public class Aardvark {
                   l.add(new Location(r, c));
                 }
               }
-              for (Domino key : map.keySet()) {
+              map.keySet().forEach(key -> {
                 System.out.printf("[%d%d]", key.high, key.low);
                 List<Location> locs = map.get(key);
-                for (Location loc : locs) {
-                  System.out.print(loc);
-                }
+                locs.forEach(loc ->System.out.print(loc));
                 System.out.println();
-              }
+              });
               break;
             }
             }
@@ -850,8 +822,7 @@ public class Aardvark {
   }
 
   public void drawDominoes(Graphics g) {
-    for (Domino d : _d) {
-      pf.dp.drawDomino(g, d);
+	_d.forEach(d -> pf.dp.drawDomino(g, d));
     }
   }
 
@@ -868,8 +839,7 @@ public class Aardvark {
   }
 
   public void drawGuesses(Graphics g) {
-    for (Domino d : _g) {
-      pf.dp.drawDomino(g, d);
+	_d.forEach(d -> pf.dp.drawDomino(g, d));
     }
   }
 
